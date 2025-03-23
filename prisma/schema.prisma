@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Contest {
+  id          Int      @id @default(autoincrement())
+  name        String
+  postId      String
+  description String?
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  entries     Entry[]
+  activities  Activity[]
+}
+
+model Entry {
+  id         Int      @id @default(autoincrement())
+  contestId  Int
+  contest    Contest  @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  commentId  String
+  userName   String
+  number     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model FacebookToken {
+  id         Int       @id @default(autoincrement())
+  tokenType  String    @default("page")
+  token      String
+  expiresAt  DateTime?
+  createdAt  DateTime  @default(now())
+}
+
+model Activity {
+  id         Int       @id @default(autoincrement())
+  type       String
+  message    String
+  contestId  Int?
+  contest    Contest?  @relation(fields: [contestId], references: [id], onDelete: SetNull)
+  ipAddress  String?
+  createdAt  DateTime  @default(now())
+}
