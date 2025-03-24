@@ -3,10 +3,11 @@ import { getContestEntries } from '@/lib/database';
 
 export async function GET(
   request: NextRequest,
-  { params }: any
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const contestId = parseInt(params.id, 10);
+    const resolvedParams = await params;
+    const contestId = parseInt(resolvedParams.id, 10);
     
     if (isNaN(contestId)) {
       return Response.json({ error: 'Invalid contest ID' }, { status: 400 });
