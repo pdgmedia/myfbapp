@@ -1,19 +1,37 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 
+interface Contest {
+  id: number;
+  name: string;
+  postId: string;
+  description: string;
+}
+
+interface NewContest {
+  name: string;
+  postId: string;
+  description: string;
+}
+
+interface FormStatus {
+  message: string;
+  type: string;
+}
+
 export default function Contests() {
-  const [contests, setContests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [newContest, setNewContest] = useState({
+  const [contests, setContests] = useState<Contest[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+  const [newContest, setNewContest] = useState<NewContest>({
     name: '',
     postId: '',
     description: ''
   });
-  const [formStatus, setFormStatus] = useState({ message: '', type: '' });
-  const [formLoading, setFormLoading] = useState(false);
+  const [formStatus, setFormStatus] = useState<FormStatus>({ message: '', type: '' });
+  const [formLoading, setFormLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchContests();
@@ -37,7 +55,7 @@ export default function Contests() {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setNewContest(prev => ({
       ...prev,
@@ -45,7 +63,7 @@ export default function Contests() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormLoading(true);
     setFormStatus({ message: '', type: '' });

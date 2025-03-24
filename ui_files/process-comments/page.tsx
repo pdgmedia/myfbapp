@@ -1,20 +1,48 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+
+interface Contest {
+  id: number;
+  name: string;
+  postId: string;
+  description: string;
+}
+
+interface ContestDetails {
+  name: string;
+  postId: string;
+  description?: string;
+}
+
+interface ProcessingResult {
+  processed: number;
+  assigned: number;
+  skipped: number;
+  errors: number;
+  details: Array<{
+    commentId: string;
+    userName: string;
+    status: string;
+    reason?: string;
+    number?: string;
+    error?: string;
+  }>;
+}
 
 export default function ProcessComments() {
   const searchParams = useSearchParams();
   const initialContestId = searchParams.get('contestId');
   
-  const [contests, setContests] = useState([]);
-  const [selectedContestId, setSelectedContestId] = useState(initialContestId || '');
-  const [loading, setLoading] = useState(false);
-  const [contestsLoading, setContestsLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [results, setResults] = useState(null);
-  const [contestDetails, setContestDetails] = useState(null);
+  const [contests, setContests] = useState<Contest[]>([]);
+  const [selectedContestId, setSelectedContestId] = useState<string>(initialContestId || '');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [contestsLoading, setContestsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+  const [results, setResults] = useState<ProcessingResult | null>(null);
+  const [contestDetails, setContestDetails] = useState<ContestDetails | null>(null);
 
   useEffect(() => {
     fetchContests();
@@ -46,7 +74,7 @@ export default function ProcessComments() {
     }
   };
 
-  const fetchContestDetails = async (id) => {
+  const fetchContestDetails = async (id: string) => {
     try {
       const response = await fetch(`/api/contests/${id}`);
       const data = await response.json();
@@ -135,7 +163,7 @@ export default function ProcessComments() {
             <select
               id="contestSelect"
               value={selectedContestId}
-              onChange={(e) => setSelectedContestId(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedContestId(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">-- Select a Contest --</option>

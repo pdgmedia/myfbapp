@@ -1,14 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import Link from 'next/link';
 
-export default function FacebookConnect() {
-  const [token, setToken] = useState('');
-  const [status, setStatus] = useState({ message: '', type: '' });
-  const [loading, setLoading] = useState(false);
+interface StatusState {
+  message: string;
+  type: string;
+}
 
-  const handleSubmit = async (e) => {
+export default function FacebookConnect() {
+  const [token, setToken] = useState<string>('');
+  const [status, setStatus] = useState<StatusState>({ message: '', type: '' });
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setStatus({ message: '', type: '' });
@@ -88,7 +93,7 @@ export default function FacebookConnect() {
             <textarea
               id="token"
               value={token}
-              onChange={(e) => setToken(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setToken(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows={4}
               placeholder="Paste your Facebook access token here"
