@@ -48,12 +48,21 @@ export async function POST(request: NextRequest) {
     const comments = await getPostComments(contest.postId, tokenData.token);
     
     // Process each comment
+    type DetailItem = {
+      commentId: string;
+      userName: string;
+      status: string;
+      reason?: string;
+      number?: string;
+      error?: string;
+    };
+    
     const results = {
       processed: 0,
       assigned: 0,
       skipped: 0,
       errors: 0,
-      details: []
+      details: [] as DetailItem[]
     };
     
     let postContentUpdated = false;
@@ -121,7 +130,7 @@ export async function POST(request: NextRequest) {
               commentId: comment.id,
               userName: comment.from.name,
               status: 'assigned',
-              number: number
+              number: number.toString()
             });
             
             assigned = true;
@@ -138,14 +147,14 @@ export async function POST(request: NextRequest) {
             reason: 'No available numbers found'
           });
         }
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(`Error processing comment ${comment.id}:`, error);
         results.errors++;
         results.details.push({
           commentId: comment.id,
           userName: comment.from.name,
           status: 'error',
-          error: error.message
+          error: error instanceof Error ? error.message : 'Unknown error'
         });
       }
     }
