@@ -48,7 +48,9 @@ export default function FacebookConnect() {
           type: 'error'
         });
       }
-    } catch (_error) {
+    } catch (error) {
+      // Using error variable to avoid ESLint no-unused-vars warning
+      console.error('Error saving Facebook token:', error);
       setStatus({
         message: 'An error occurred while saving the token',
         type: 'error'
