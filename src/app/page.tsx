@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -17,7 +16,7 @@ export default function Home() {
             <li>Connect your Facebook account to get access to your posts</li>
             <li>Create a contest linked to a specific Facebook post</li>
             <li>When users comment with numbers, the app automatically assigns those numbers</li>
-            <li>The original post is updated with the commenter's name next to their chosen number</li>
+            <li>The original post is updated with the commenter&apos;s name next to their chosen number</li>
           </ol>
         </div>
         
