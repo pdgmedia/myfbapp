@@ -48,7 +48,7 @@ export default function Contests() {
       } else {
         setError(data.error || 'Failed to fetch contests');
       }
-    } catch (error) {
+    } catch (_error) {
       setError('An error occurred while fetching contests');
     } finally {
       setLoading(false);
@@ -96,7 +96,7 @@ export default function Contests() {
           type: 'error'
         });
       }
-    } catch (error) {
+    } catch (_error) {
       setFormStatus({
         message: 'An error occurred while creating the contest',
         type: 'error'
@@ -237,10 +237,10 @@ export default function Contests() {
       <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-2">How to Use Contests</h2>
         <ol className="list-decimal list-inside space-y-2">
-          <li>Create a Facebook post with numbers that users can claim (e.g., "Comment with a number from 1-50")</li>
+          <li>Create a Facebook post with numbers that users can claim (e.g., &ldquo;Comment with a number from 1-50&rdquo;)</li>
           <li>Copy the post ID from the URL and create a new contest here</li>
-          <li>When users comment with numbers, use the "Process Comments" button to scan and update your post</li>
-          <li>The app will automatically add the commenter's name next to their chosen number in the original post</li>
+          <li>When users comment with numbers, use the &ldquo;Process Comments&rdquo; button to scan and update your post</li>
+          <li>The app will automatically add the commenter&apos;s name next to their chosen number in the original post</li>
         </ol>
       </div>
     </div>
