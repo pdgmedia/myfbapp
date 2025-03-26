@@ -48,7 +48,7 @@ export default function FacebookConnect() {
           type: 'error'
         });
       }
-    } catch (error) {
+    } catch (_error) {
       setStatus({
         message: 'An error occurred while saving the token',
         type: 'error'
@@ -67,7 +67,7 @@ export default function FacebookConnect() {
         <ol className="list-decimal list-inside space-y-3 mb-4">
           <li>Go to <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Facebook Graph API Explorer</a></li>
           <li>Select your app from the dropdown menu</li>
-          <li>Click on "Generate Access Token"</li>
+          <li>Click on &ldquo;Generate Access Token&rdquo;</li>
           <li>Make sure to request these permissions:
             <ul className="list-disc list-inside ml-6 mt-2">
               <li>pages_read_engagement (to read comments)</li>
