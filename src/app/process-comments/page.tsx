@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -67,7 +67,7 @@ export default function ProcessComments() {
       } else {
         setError(data.error || 'Failed to fetch contests');
       }
-    } catch (error) {
+    } catch (_error) {
       setError('An error occurred while fetching contests');
     } finally {
       setContestsLoading(false);
@@ -84,7 +84,7 @@ export default function ProcessComments() {
       } else {
         setError(data.error || 'Failed to fetch contest details');
       }
-    } catch (error) {
+    } catch (_error) {
       setError('An error occurred while fetching contest details');
     }
   };
@@ -117,7 +117,7 @@ export default function ProcessComments() {
       } else {
         setError(data.error || 'Failed to process comments');
       }
-    } catch (error) {
+    } catch (_error) {
       setError('An error occurred while processing comments');
     } finally {
       setLoading(false);
