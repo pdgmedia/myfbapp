@@ -67,7 +67,9 @@ export default function ProcessComments() {
       } else {
         setError(data.error || 'Failed to fetch contests');
       }
-    } catch (_error) {
+    } catch (error) {
+      // Using error variable to avoid ESLint no-unused-vars warning
+      console.error('Error fetching contests:', error);
       setError('An error occurred while fetching contests');
     } finally {
       setContestsLoading(false);
@@ -84,7 +86,9 @@ export default function ProcessComments() {
       } else {
         setError(data.error || 'Failed to fetch contest details');
       }
-    } catch (_error) {
+    } catch (error) {
+      // Using error variable to avoid ESLint no-unused-vars warning
+      console.error('Error fetching contest details:', error);
       setError('An error occurred while fetching contest details');
     }
   };
@@ -117,7 +121,9 @@ export default function ProcessComments() {
       } else {
         setError(data.error || 'Failed to process comments');
       }
-    } catch (_error) {
+    } catch (error) {
+      // Using error variable to avoid ESLint no-unused-vars warning
+      console.error('Error processing comments:', error);
       setError('An error occurred while processing comments');
     } finally {
       setLoading(false);
