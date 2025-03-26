@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -32,17 +32,33 @@ interface ProcessingResult {
   }>;
 }
 
-export default function ProcessComments() {
+// Client component that uses useSearchParams
+function SearchParamsHandler({ onContestIdFound }: { onContestIdFound: (contestId: string | null) => void }) {
   const searchParams = useSearchParams();
-  const initialContestId = searchParams.get('contestId');
+  const contestId = searchParams.get('contestId');
   
+  useEffect(() => {
+    onContestIdFound(contestId);
+  }, [contestId, onContestIdFound]);
+  
+  return null;
+}
+
+export default function ProcessComments() {
   const [contests, setContests] = useState<Contest[]>([]);
-  const [selectedContestId, setSelectedContestId] = useState<string>(initialContestId || '');
+  const [selectedContestId, setSelectedContestId] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [contestsLoading, setContestsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [results, setResults] = useState<ProcessingResult | null>(null);
   const [contestDetails, setContestDetails] = useState<ContestDetails | null>(null);
+
+  // Handle the contestId from search params
+  const handleContestIdFound = (contestId: string | null) => {
+    if (contestId) {
+      setSelectedContestId(contestId);
+    }
+  };
 
   useEffect(() => {
     fetchContests();
@@ -132,6 +148,11 @@ export default function ProcessComments() {
 
   return (
     <div className="max-w-4xl mx-auto py-8">
+      {/* Wrap the useSearchParams hook in Suspense */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchParamsHandler onContestIdFound={handleContestIdFound} />
+      </Suspense>
+      
       <h1 className="text-3xl font-bold mb-6">Process Comments</h1>
       
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
