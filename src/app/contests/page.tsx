@@ -48,7 +48,9 @@ export default function Contests() {
       } else {
         setError(data.error || 'Failed to fetch contests');
       }
-    } catch (_error) {
+    } catch (error) {
+      // Using error variable to avoid ESLint no-unused-vars warning
+      console.error('Error fetching contests:', error);
       setError('An error occurred while fetching contests');
     } finally {
       setLoading(false);
@@ -96,7 +98,9 @@ export default function Contests() {
           type: 'error'
         });
       }
-    } catch (_error) {
+    } catch (error) {
+      // Using error variable to avoid ESLint no-unused-vars warning
+      console.error('Error creating contest:', error);
       setFormStatus({
         message: 'An error occurred while creating the contest',
         type: 'error'
